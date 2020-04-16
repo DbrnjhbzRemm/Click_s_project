@@ -15,17 +15,17 @@ void setup()
  bouncer .interval(5); // устанавливаем параметр stable interval = 5 мс
  myOLED.begin();
  myOLED.setFont(MediumFont);
- myOLED.setCursor(16,4);
 }
  
 void loop()
 {
+ myOLED.setCursor(16,4);
  if (bouncer.update())
- { //если произошло событие
+ {
   if (bouncer.read()==0)
   {
-   i = i + 1; //если кнопка нажата
-   myOLED.print(i); //вывод сообщения о нажатии
+   i = i + 1;
+   myOLED.print(i);
   }
  }
 }
