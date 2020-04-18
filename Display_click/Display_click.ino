@@ -9,10 +9,10 @@ int i = 0;
 
 void setup()
 {
- pinMode(2 ,INPUT); // кнопка на пине 2
- digitalWrite(2 ,HIGH); // подключаем встроенный подтягивающий резистор
- bouncer .attach(2); // устанавливаем кнопку
- bouncer .interval(5); // устанавливаем параметр stable interval = 5 мс
+ pinMode(2 ,INPUT);
+ digitalWrite(2 ,HIGH);
+ bouncer.attach(2);
+ bouncer.interval(5);
  myOLED.begin();
  myOLED.setFont(MediumFont);
 }
