@@ -12,8 +12,9 @@ int i = 0;
 
 void setup () 
 {
-    mySerial.begin(9600);
     Serial.begin (9600);
+  
+    mySerial.begin(9600);
     mp3_set_serial (mySerial);    
     mp3_set_volume (10);
     
@@ -32,9 +33,9 @@ void loop ()
     {
         if (bouncer.read()==0)
         {
-         i = i + 1;
-         myOLED.print(i);
-         mp3_play (3);
+           i = i + 1;
+           myOLED.print(i);
+           mp3_play (3);
         }
     }
 }
