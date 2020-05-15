@@ -36,8 +36,8 @@ void loop ()
            i = i + 1;
            myOLED.print(i);
            mp3_play (3);
-           if (Serial.available() > 0)
-               Serial.println(i); 
+//           if (Serial.available() > 0)
+//               Serial.println(i); 
         }
     }
 }
