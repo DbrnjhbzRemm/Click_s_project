@@ -8,7 +8,7 @@ Bounce bouncer = Bounce();
 iarduino_OLED_txt myOLED(0x3C);
 extern uint8_t MediumFont[];
 
-long int i = 0;
+int i = 0;
 int track = 5;
 int value = 10;
 String var;
@@ -77,8 +77,8 @@ void loop ()
   {
     if (bouncer.read() == 0)
     {
-      myOLED.print(i);
       i += 1;
+      myOLED.print(i);
       mp3_play(track);
       Serial.println(i);
     }
