@@ -12,6 +12,8 @@ int i = 0;
 int track = 5;
 int value = 10;
 String var;
+int critchance = 10;
+int critplier = 2;
 
 void  ft_variable(char *str, int value)
 {
@@ -77,15 +79,25 @@ void loop ()
   {
     if (bouncer.read() == 0)
     {
-      i += 1;
-      myOLED.print(i);
-      mp3_play(track);
-      Serial.println(i);
+      if (random(1, 100) < critchance)
+      {
+          i += critplier;
+          myOLED.print(i);
+          mp3_play(3);
+          Serial.println(i);
+      }
+      else
+      {
+          i += 1;
+          myOLED.print(i);
+          mp3_play(track);
+          Serial.println(i);
+      }
     }
   }
   if (Serial.available())
   {
-    var = Serial.readString();
-    ft_parsing(var);
+      var = Serial.readString();
+      ft_parsing(var);
   }
 }
