@@ -3,6 +3,7 @@
 #include <Bounce2.h>
 #include <iarduino_OLED_txt.h>
 
+#define LED_BUTTON 9
 #define cursor_x 16
 #define cursor_y 4
 #define start_perclick 1
@@ -140,6 +141,8 @@ void  setup()
 
   myOLED.begin();
   myOLED.setFont(MediumFont);
+
+  pinMode(LED_BUTTON, OUTPUT);
 }
 
 void  loop()
@@ -155,6 +158,7 @@ void  loop()
         myOLED.print(score);
         mp3_play(combo_sound);
         Serial.println(score);
+        digitalWrite(LED_BUTTON, HIGH);
       }
       else if (random(1, 100) < critchance)
       {
@@ -162,6 +166,7 @@ void  loop()
         myOLED.print(score);
         mp3_play(crit_sound);
         Serial.println(score);
+        digitalWrite(LED_BUTTON, HIGH);
       }
       else
       {
@@ -169,8 +174,10 @@ void  loop()
           myOLED.print(score);
           mp3_play(track);
           Serial.println(score);
+          digitalWrite(LED_BUTTON, HIGH);
       }
     }
+    digitalWrite(LED_BUTTON, LOW);
   }
   if (Serial.available())
   {
