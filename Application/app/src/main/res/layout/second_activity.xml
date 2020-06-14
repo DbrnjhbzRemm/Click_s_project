@@ -28,8 +28,8 @@
         android:text="@string/imcombo"
         android:textAllCaps="false"
         android:textColor="@color/colorFont"
-        android:textOff="@string/improve_n_combo"
-        android:textOn="@string/improve_n_combo"
+        android:textOff="@string/imcombo"
+        android:textOn="@string/imcombo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.77"
@@ -69,7 +69,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/act2_edit"
-        app:layout_constraintVertical_bias="0.125" />
+        app:layout_constraintVertical_bias="0.112" />
 
     <TextView
         android:id="@+id/sounds"
@@ -87,7 +87,7 @@
 
     <ToggleButton
         android:id="@+id/_2"
-        android:layout_width="42dp"
+        android:layout_width="43dp"
         android:layout_height="43dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/outline_background"
@@ -98,18 +98,15 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sounds"
         app:layout_constraintVertical_bias="0.0" />
 
     <ToggleButton
         android:id="@+id/_4"
-        android:layout_width="42dp"
+        android:layout_width="43dp"
         android:layout_height="43dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginLeft="76dp"
-        android:layout_marginBottom="372dp"
         android:background="@drawable/outline_background"
         android:text="@string/_4"
         android:textColor="@color/colorFont"
@@ -118,14 +115,14 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/_5"
-        app:layout_constraintHorizontal_bias="0.378"
+        app:layout_constraintHorizontal_bias="0.709"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/_1"
-        app:layout_constraintVertical_bias="0.666" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ToggleButton
         android:id="@+id/_8"
-        android:layout_width="47dp"
+        android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@drawable/outline_background"
         android:text="@string/_8"
@@ -135,13 +132,14 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/_5"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ToggleButton
         android:id="@+id/_6"
-        android:layout_width="42dp"
+        android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@drawable/outline_background"
         android:text="@string/_6"
@@ -151,18 +149,15 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.293"
+        app:layout_constraintHorizontal_bias="0.295"
         app:layout_constraintStart_toEndOf="@+id/_5"
         app:layout_constraintTop_toBottomOf="@+id/_3"
-        app:layout_constraintVertical_bias="0.04" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ToggleButton
         android:id="@+id/_9"
-        android:layout_width="42dp"
+        android:layout_width="43dp"
         android:layout_height="43dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="8dp"
         android:background="@drawable/outline_background"
         android:text="@string/_9"
         android:textColor="@color/colorFont"
@@ -171,17 +166,15 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintHorizontal_bias="0.295"
         app:layout_constraintStart_toEndOf="@+id/_8"
         app:layout_constraintTop_toBottomOf="@+id/_6"
-        app:layout_constraintVertical_bias="0.027" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ToggleButton
         android:id="@+id/_7"
-        android:layout_width="42dp"
+        android:layout_width="43dp"
         android:layout_height="43dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginLeft="88dp"
         android:background="@drawable/outline_background"
         android:text="@string/_7"
         android:textColor="@color/colorFont"
@@ -190,14 +183,14 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/_8"
-        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintHorizontal_bias="0.707"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/_4"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ToggleButton
         android:id="@+id/_5"
-        android:layout_width="42dp"
+        android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@drawable/outline_background"
         android:text="@string/_5"
@@ -207,14 +200,14 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/_2"
-        app:layout_constraintVertical_bias="0.04" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ToggleButton
         android:id="@+id/_1"
-        android:layout_width="42dp"
+        android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@drawable/outline_background"
         android:text="@string/_1"
@@ -231,7 +224,7 @@
 
     <ToggleButton
         android:id="@+id/_3"
-        android:layout_width="42dp"
+        android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@drawable/outline_background"
         android:text="@string/_3"
@@ -259,17 +252,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/_8"
-        app:layout_constraintVertical_bias="0.718" />
+        app:layout_constraintVertical_bias="0.415" />
 
     <Button
         android:id="@+id/button6"
         android:layout_width="209dp"
         android:layout_height="204dp"
-        android:layout_marginBottom="36dp"
         android:background="@drawable/gradient_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/skin"
+        app:layout_constraintVertical_bias="0.255" />
 
 
 </android.support.constraint.ConstraintLayout>
