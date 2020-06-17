@@ -5,8 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import android.widget.Button
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,10 +15,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var vText: TextView
     lateinit var vConnect: TextView
     lateinit var vScore: TextView
+    lateinit var vBrightness: SeekBar
     private val REQUEST_ENABLE_BT = 1
 
-    var bluetoothAdapter: BluetoothAdapter? = null
-
+    var myBluetoothAdapter: BluetoothAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +40,8 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Bluetooth not support", Toast.LENGTH_LONG).show();
             return;
         }
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (bluetoothAdapter == null) {
+        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (myBluetoothAdapter == null) {
             Toast.makeText(this, "Bluetooth is not supported on this hardware platform", Toast.LENGTH_LONG).show();
             return;
         }
@@ -56,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (!bluetoothAdapter!!.isEnabled) {
+        if (!myBluetoothAdapter!!.isEnabled) {
             val enableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT)
         }
