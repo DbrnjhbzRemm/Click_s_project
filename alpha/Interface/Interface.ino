@@ -3,18 +3,17 @@
 #include <Bounce2.h>
 #include <iarduino_OLED_txt.h>
 
-#define LED_BUTTON 9
 #define cursor_x 16
 #define cursor_y 4
 #define start_perclick 1
-#define start_track 10
+#define start_track 9
 #define start_vol 25
 #define start_crit_chance 30
 #define start_crit_combo 70
 #define start_crit_multiplier 2
 #define start_combo_multiplier 2
-#define start_crit_sound 4
-#define start_combo_sound 7
+#define start_crit_sound 3
+#define start_combo_sound 6
 #define button_pin 2
 #define comand_setperclick "spcl"
 #define comand_setscore "sset"
@@ -27,7 +26,7 @@
 #define comand_setcombomultiplier "comu"
 #define comand_setcombochance "coch"
 
-SoftwareSerial mySerial(10, 11); // RX, TX
+SoftwareSerial mySerial(5, 6); // RX, TX
 Bounce bouncer = Bounce();
 iarduino_OLED_txt myOLED(0x3C);
 extern uint8_t MediumFont[];
@@ -98,7 +97,7 @@ void  raw_parser(String comand_str)
   int result = 0;
   char *var2;
 
-  var2 = malloc(4 * sizeof(char));
+  var2 = (char*)malloc(4 * sizeof(char));
 
   while ((comand_str[c] != 32)||(comand_str[c] <= 48) && (comand_str[c] >= 57))
   {
@@ -141,8 +140,6 @@ void  setup()
 
   myOLED.begin();
   myOLED.setFont(MediumFont);
-
-  pinMode(LED_BUTTON, OUTPUT);
 }
 
 void  loop()
@@ -158,7 +155,6 @@ void  loop()
         myOLED.print(score);
         mp3_play(combo_sound);
         Serial.println(score);
-        digitalWrite(LED_BUTTON, HIGH);
       }
       else if (random(1, 100) < critchance)
       {
@@ -166,7 +162,6 @@ void  loop()
         myOLED.print(score);
         mp3_play(crit_sound);
         Serial.println(score);
-        digitalWrite(LED_BUTTON, HIGH);
       }
       else
       {
@@ -174,10 +169,8 @@ void  loop()
           myOLED.print(score);
           mp3_play(track);
           Serial.println(score);
-          digitalWrite(LED_BUTTON, HIGH);
       }
     }
-    digitalWrite(LED_BUTTON, LOW);
   }
   if (Serial.available())
   {
