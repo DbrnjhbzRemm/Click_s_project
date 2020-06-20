@@ -3,6 +3,10 @@
 #include <Bounce2.h>
 #include <iarduino_OLED_txt.h>
 
+#define half_bright 50
+#define default_red_pin 9
+#define default_green_pin 10
+#define default_blue_pin 11
 #define cursor_x 16
 #define cursor_y 4
 #define start_perclick 1
@@ -31,6 +35,9 @@ Bounce bouncer = Bounce();
 iarduino_OLED_txt myOLED(0x3C);
 extern uint8_t MediumFont[];
 
+int red;
+int green;
+int blue;
 int score;
 int track;
 String var;
@@ -115,8 +122,18 @@ void  raw_parser(String comand_str)
   free(var2);
 }
 
-void  setup()
+void setRGB(int r, int g, int b)
 {
+  analogWrite(default_red_pin, r);
+  analogWrite(default_green_pin, g);
+  analogWrite(default_blue_pin, b);
+}
+
+void  setup()
+{ 
+  red = 0;
+  green = half_bright;
+  blue = 0;
   perclick = start_perclick;
   track = start_track;
   score = 0;
@@ -140,15 +157,23 @@ void  setup()
 
   myOLED.begin();
   myOLED.setFont(MediumFont);
+
+  pinMode(default_red_pin, OUTPUT);
+  pinMode(default_green_pin, OUTPUT);
+  pinMode(default_blue_pin, OUTPUT);
 }
 
 void  loop()
 {
   myOLED.setCursor(cursor_x, cursor_y);
+  setRGB(red, green, blue);
   if (bouncer.update())
   {
     if (bouncer.read() == 0)
     {
+      setRGB(red, 255, blue);
+      delay(100);
+      
       if ((score%10 == 0) && (random(1, 100) < critcombo))
       {
         score += comboplier;
