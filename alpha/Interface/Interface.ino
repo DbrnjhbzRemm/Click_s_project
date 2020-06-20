@@ -57,7 +57,7 @@ int crit_sound;
 int combo_sound;
 int perclick;
 
-void  comand(char *comand_str, int value)
+void  comand(char *comand_str, float value)
 // принимает строку команды и числовое значение и исходя из команды
 // выбирает необходимое действие, передавая в нужную функцию значение
 {
@@ -129,7 +129,8 @@ void  raw_parser(String comand_str)
 //разделяет строку на массив символов с командой и числовое значение
 {
   int c = 0;
-  int result = 0;
+  float resultInt = 0;
+  float resultFloat = 0;
   char *var2;
 
   var2 = (char*)malloc(4 * sizeof(char));
@@ -142,19 +143,40 @@ void  raw_parser(String comand_str)
   c++;
   while ((comand_str[c] >= 48) && (comand_str[c] <= 57))
   {
-    result = result * 10 + comand_str[c] - 48;
+    resultInt = resultInt * 10 + comand_str[c] - 48;
     c++;
   }
+  if (comand_str[c] == '.')
+  {
+    int i;
+    float a;
 
-  comand(var2, result);
+    i = 0;
+    a = 1;
+    c++;
+    while ((comand_str[c] >= 48) && (comand_str[c] <= 57))
+    {
+      resultFloat = resultFloat * 10 + comand_str[c] - 48;
+      c++;
+      i++;
+    }
+    while (i)
+    {
+      a = a / 10;
+      i--;
+    }
+    resultFloat = resultFloat * a;
+  }
+  resultInt = resultInt + resultFloat;
+  comand(var2, resultInt);
   free(var2);
 }
 
 void setRGB(int r, int g, int b)
 {
-  analogWrite(default_red_pin, r);
-  analogWrite(default_green_pin, g);
-  analogWrite(default_blue_pin, b);
+  analogWrite(default_red_pin, r*bright);
+  analogWrite(default_green_pin, g*bright);
+  analogWrite(default_blue_pin, b*bright);
 }
 
 void  setup()
@@ -196,20 +218,19 @@ void  setup()
 void  loop()
 {
   myOLED.setCursor(cursor_x, cursor_y);
-  setRGB(red*difBright*bright, green*difBright*bright, blue*difBright*bright);
+  setRGB(red*difBright, green*difBright, blue*difBright);
   if (bouncer.update())
   {
     if (bouncer.read() == 0)
     {
-      setRGB(red*bright, green*bright, blue*bright);
-      delay(100);
-      
       if ((score%10 == 0) && (random(1, 100) < critcombo))
       {
         score += comboplier;
         myOLED.print(score);
         mp3_play(combo_sound);
         Serial.println(score);
+        setRGB(255-red, 255-green, 255-blue);
+        delay(150);
       }
       else if (random(1, 100) < critchance)
       {
@@ -217,6 +238,8 @@ void  loop()
         myOLED.print(score);
         mp3_play(crit_sound);
         Serial.println(score);
+        setRGB(red, green, blue);
+        delay(100);
       }
       else
       {
@@ -224,6 +247,8 @@ void  loop()
         myOLED.print(score);
         mp3_play(track);
         Serial.println(score);
+        setRGB(red, green, blue);
+        delay(100);
       }
     }
   }
