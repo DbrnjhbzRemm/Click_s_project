@@ -16,6 +16,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_device_list.*
 import java.util.*
 
+@Suppress("UNREACHABLE_CODE", "CAST_NEVER_SUCCEEDS")
 class DeviceList : AppCompatActivity() {
     //widgets
     lateinit var vConnect: TextView
@@ -24,7 +25,7 @@ class DeviceList : AppCompatActivity() {
     //Bluetooth
     private var myBluetooth: BluetoothAdapter? = null
     private var pairedDevices: Set<BluetoothDevice>? = null
-    var EXTRA_ADDRESS = "device_address"
+    private var EXTRA_ADDRESS = "device_address"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,18 +41,13 @@ class DeviceList : AppCompatActivity() {
             //Show a mensag. that the device has no bluetooth adapter
             Toast.makeText(applicationContext, "Bluetooth Device Not Available", Toast.LENGTH_LONG)
                 .show()
-        } else if (!myBluetooth!!.isEnabled()) {
+        } else if (!myBluetooth!!.isEnabled) {
             //Ask to the user turn the bluetooth on
             val turnBTon = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(turnBTon, 1)
         }
 
-        vConnect.setOnClickListener(
-            object : View.OnClickListener {
-                override fun onClick(v: View) {
-                    pairedDevicesList()
-                }
-            })
+        vConnect.setOnClickListener { pairedDevicesList() }
     }
     private fun pairedDevicesList() {
         pairedDevices = myBluetooth!!.bondedDevices
@@ -62,16 +58,12 @@ class DeviceList : AppCompatActivity() {
                 //Get the device's name and the address
             }
         } else {
-            Toast.makeText(
-                applicationContext,
-                "No Paired Bluetooth Devices Found.",
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(applicationContext, "No Paired Bluetooth Devices Found.", Toast.LENGTH_LONG).show()
         }
         val adapter: ArrayAdapter<*> =
             ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
-        vListDevice.setAdapter(adapter)
-        vListDevice.setOnItemClickListener(myListClickListener)
+        vListDevice.adapter = adapter
+        vListDevice.onItemClickListener = myListClickListener
         //Method called when the device from the list is clicked
     }
     private val myListClickListener =

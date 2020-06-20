@@ -3,7 +3,8 @@
 #include <Bounce2.h>
 #include <iarduino_OLED_txt.h>
 
-#define half_bright 50
+#define brightness 1
+#define bright_difference 0.2
 #define default_red_pin 9
 #define default_green_pin 10
 #define default_blue_pin 11
@@ -23,6 +24,11 @@
 #define comand_setscore "sset"
 #define comand_setvolume "svol"
 #define comand_setclicktrack "strc"
+#define comand_setredcolor "sred"
+#define comand_setgreencolor "sgrn"
+#define comand_setbluecolor "sblu"
+#define comand_setdifferencebright "sdbr"
+#define comand_setbrightness "sbrt"
 #define comand_setcrittrack "ctrc"
 #define comand_setcritmultiplier "cmul"
 #define comand_setcritchance "ccha"
@@ -35,6 +41,8 @@ Bounce bouncer = Bounce();
 iarduino_OLED_txt myOLED(0x3C);
 extern uint8_t MediumFont[];
 
+float bright;
+float difBright;
 int red;
 int green;
 int blue;
@@ -95,6 +103,26 @@ void  comand(char *comand_str, int value)
   {
     critcombo = value;
   }
+  if ((comand_str[0] == comand_setredcolor[0]) && (comand_str[1] == comand_setredcolor[1]) && (comand_str[2] == comand_setredcolor[2]) && (comand_str[3] == comand_setredcolor[3]))
+  {
+    red = value;
+  }
+  if ((comand_str[0] == comand_setgreencolor[0]) && (comand_str[1] == comand_setgreencolor[1]) && (comand_str[2] == comand_setgreencolor[2]) && (comand_str[3] == comand_setgreencolor[3]))
+  {
+    green = value;
+  }
+  if ((comand_str[0] == comand_setbluecolor[0]) && (comand_str[1] == comand_setbluecolor[1]) && (comand_str[2] == comand_setbluecolor[2]) && (comand_str[3] == comand_setbluecolor[3]))
+  {
+    blue = value;
+  }
+  if ((comand_str[0] == comand_setdifferencebright[0]) && (comand_str[1] == comand_setdifferencebright[1]) && (comand_str[2] == comand_setdifferencebright[2]) && (comand_str[3] == comand_setdifferencebright[3]))
+  {
+    difBright = value;
+  }
+  if ((comand_str[0] == comand_setbrightness[0]) && (comand_str[1] == comand_setbrightness[1]) && (comand_str[2] == comand_setbrightness[2]) && (comand_str[3] == comand_setbrightness[3]))
+  {
+    bright = value;
+  }
 }
 
 void  raw_parser(String comand_str)
@@ -130,10 +158,12 @@ void setRGB(int r, int g, int b)
 }
 
 void  setup()
-{ 
+{
+  bright = brightness;
+  difBright = bright_difference;
   red = 0;
-  green = half_bright;
-  blue = 0;
+  green = 0;
+  blue = 255;
   perclick = start_perclick;
   track = start_track;
   score = 0;
@@ -166,12 +196,12 @@ void  setup()
 void  loop()
 {
   myOLED.setCursor(cursor_x, cursor_y);
-  setRGB(red, green, blue);
+  setRGB(red*difBright*bright, green*difBright*bright, blue*difBright*bright);
   if (bouncer.update())
   {
     if (bouncer.read() == 0)
     {
-      setRGB(red, 255, blue);
+      setRGB(red*bright, green*bright, blue*bright);
       delay(100);
       
       if ((score%10 == 0) && (random(1, 100) < critcombo))
@@ -190,10 +220,10 @@ void  loop()
       }
       else
       {
-          score += perclick;
-          myOLED.print(score);
-          mp3_play(track);
-          Serial.println(score);
+        score += perclick;
+        myOLED.print(score);
+        mp3_play(track);
+        Serial.println(score);
       }
     }
   }
