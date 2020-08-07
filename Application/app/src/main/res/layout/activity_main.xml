@@ -52,29 +52,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.431" />
 
+
+<!--    android:progressBackgroundTint="@color/colorFont"-->
     <SeekBar
+
         android:id="@+id/seekBar_brightness"
         android:layout_width="111dp"
         android:layout_height="26dp"
-        android:progressBackgroundTint="@color/colorFont"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.934" tools:targetApi="lollipop"/>
+        app:layout_constraintVertical_bias="0.934"/>
 
     <SeekBar
         android:id="@+id/seekBar_sound"
         android:layout_width="110dp"
         android:layout_height="26dp"
-        android:progressBackgroundTint="@color/colorFont"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.633"
         app:layout_constraintStart_toEndOf="@+id/seekBar_brightness"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.934" />
+        app:layout_constraintVertical_bias="0.934"/>
+
 
     <TextView
         android:id="@+id/bright"
