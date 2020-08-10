@@ -3,24 +3,24 @@ package com.example.test
 import android.annotation.SuppressLint
 //import android.app.ProgressDialog
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
+//import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
-import android.content.Context
+//import android.content.Context
 import android.content.Intent
-import android.os.AsyncTask
-import android.os.AsyncTask.execute
+//import android.os.AsyncTask
+//import android.os.AsyncTask.execute
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
-import android.view.MenuItem
+//import android.view.MenuItem
 import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
+//import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
-import android.widget.Toast
+//import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.IOException
+//import java.io.IOException
 import java.util.*
-import java.security.AccessController.getContext as getContext
+//import java.security.AccessController.getContext as getContext
 
 
 //@Suppress("DEPRECATION")
