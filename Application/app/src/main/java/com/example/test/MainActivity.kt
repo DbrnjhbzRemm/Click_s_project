@@ -44,7 +44,7 @@ open class MainActivity : AppCompatActivity() {
 
     private var checked_sound: Int = 0
     private var checked_color: Int = 0
-    private var clicks_amount: Int = 1000
+    private var clicks_amount: Int = 0
 
 //    set id linking here
     @RequiresApi(Build.VERSION_CODES.M)
