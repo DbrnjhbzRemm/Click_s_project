@@ -6,4 +6,11 @@
     <color name="colorBackground">#222a35</color>
     <color name="colorFont">#ffffff</color>
     <color name="colorClose">#2f5596</color>
+    <color name="colorRedButton">#FA2A2A</color>
+    <color name="colorGreenButton">#4CAF50</color>
+    <color name="colorBlueButton">#2196F3</color>
+    <color name="colorPurpleButton">#673AB7</color>
+    <color name="colorYellowButton">#FFEB3B</color>
+    <color name="colorOrangeButton">#FF5722</color>
+    <color name="colorPinkButton">#E91E63</color>
 </resources>

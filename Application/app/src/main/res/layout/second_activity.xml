@@ -68,7 +68,6 @@
         android:textSize="100sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.843"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
@@ -93,7 +92,6 @@
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@color/colorPrimary"
-        android:text="@string/_2"
         android:textColor="@color/colorFont"
         android:textOff="@string/_2"
         android:textOn="@string/_2"
@@ -109,7 +107,6 @@
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@color/colorClose"
-        android:text="@string/_1"
         android:textColor="@color/colorFont"
         android:textOff="@string/_1"
         android:textOn="@string/_1"
@@ -126,7 +123,6 @@
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@color/colorPrimary"
-        android:text="@string/_3"
         android:textColor="@color/colorClose"
         android:textOff="@string/_3"
         android:textOn="@string/_3"
@@ -143,7 +139,6 @@
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@color/colorPrimary"
-        android:text="@string/_5"
         android:textColor="@color/colorClose"
         android:textOff="@string/_5"
         android:textOn="@string/_5"
@@ -159,7 +154,6 @@
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@color/colorPrimary"
-        android:text="@string/_8"
         android:textColor="@color/colorClose"
         android:textOff="@string/_8"
         android:textOn="@string/_8"
@@ -175,7 +169,6 @@
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@color/colorPrimary"
-        android:text="@string/_7"
         android:textColor="@color/colorClose"
         android:textOff="@string/_7"
         android:textOn="@string/_7"
@@ -192,7 +185,6 @@
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@color/colorPrimary"
-        android:text="@string/_9"
         android:textColor="@color/colorClose"
         android:textOff="@string/_9"
         android:textOn="@string/_9"
@@ -214,17 +206,15 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/_8"
-        app:layout_constraintVertical_bias="0.093" />
+        app:layout_constraintVertical_bias="0.079" />
 
     <ToggleButton
         android:id="@+id/_6"
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@color/colorPrimary"
-        android:text="@string/_6"
         android:textColor="@color/colorClose"
         android:textOff="@string/_6"
         android:textOn="@string/_6"
@@ -241,7 +231,6 @@
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@color/colorPrimary"
-        android:text="@string/_4"
         android:textColor="@color/colorClose"
         android:textOff="@string/_4"
         android:textOn="@string/_4"
@@ -303,6 +292,89 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/score"
         app:layout_constraintVertical_bias="0.042" />
+
+    <ToggleButton
+        android:id="@+id/red"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@color/colorRedButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/skin"
+        app:layout_constraintVertical_bias="0.094" />
+
+    <ToggleButton
+        android:id="@+id/blue"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@color/colorBlueButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.071"
+        app:layout_constraintStart_toEndOf="@+id/red"
+        app:layout_constraintTop_toBottomOf="@+id/skin"
+        app:layout_constraintVertical_bias="0.095" />
+
+    <ToggleButton
+        android:id="@+id/green"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@color/colorGreenButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/red"
+        app:layout_constraintHorizontal_bias="0.907"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/skin"
+        app:layout_constraintVertical_bias="0.094" />
+
+    <ToggleButton
+        android:id="@+id/purple"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@color/colorPurpleButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/green"
+        app:layout_constraintHorizontal_bias="0.894"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/skin"
+        app:layout_constraintVertical_bias="0.095" />
+
+    <ToggleButton
+        android:id="@+id/yellow"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@color/colorYellowButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.158"
+        app:layout_constraintStart_toEndOf="@+id/blue"
+        app:layout_constraintTop_toBottomOf="@+id/skin"
+        app:layout_constraintVertical_bias="0.095" />
+
+    <ToggleButton
+        android:id="@+id/orange"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@color/colorOrangeButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/purple"
+        app:layout_constraintHorizontal_bias="0.758"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/skin"
+        app:layout_constraintVertical_bias="0.095" />
+
+    <ToggleButton
+        android:id="@+id/pink"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@color/colorPinkButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.203"
+        app:layout_constraintStart_toEndOf="@+id/yellow"
+        app:layout_constraintTop_toBottomOf="@+id/skin"
+        app:layout_constraintVertical_bias="0.095" />
 
 
 </android.support.constraint.ConstraintLayout>

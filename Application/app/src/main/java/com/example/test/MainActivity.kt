@@ -18,7 +18,7 @@ open class MainActivity : AppCompatActivity() {
 
 //    set cost values here
     private val sound_costs = arrayOf<Int>(0,10,50,100,200,300,500,1000,5000)
-    private val color_costs = arrayOf<Int>(0,20,40,80,160,320,640,2048)
+    private val color_costs = arrayOf<Int>(0,20,40,80,160,400,1200)
     private val upgrade_perclick_cost = 100
     private val upgrade_crit_cost = 10
     private val upgrade_combo_cost = 50
@@ -44,13 +44,13 @@ open class MainActivity : AppCompatActivity() {
 
     private var checked_sound: Int = 0
     private var checked_color: Int = 0
-    private var clicks_amount: Int = 100
+    private var clicks_amount: Int = 1000
 
 //    set id linking here
     @RequiresApi(Build.VERSION_CODES.M)
     private fun check_cost(b:ToggleButton):Boolean
     {
-        var cost=0
+        var cost:Int
         when (b)
         {
             _1 -> cost=sound_costs[0]
@@ -62,7 +62,13 @@ open class MainActivity : AppCompatActivity() {
             _7 -> cost=sound_costs[6]
             _8 -> cost=sound_costs[7]
             _9 -> cost=sound_costs[8]
-            //сюда добавить 8 строк, n=0..7: id -> cost=color_costs[n]
+            orange -> cost=color_costs[0]
+            purple -> cost=color_costs[1]
+            green -> cost=color_costs[2]
+            red -> cost=color_costs[3]
+            blue -> cost=color_costs[4]
+            yellow -> cost=color_costs[5]
+            pink -> cost=color_costs[6]
             else -> return false
         }
         return check_availability(b,cost)
@@ -88,7 +94,7 @@ open class MainActivity : AppCompatActivity() {
     {
         vScore.text=clicks_amount.toString()
         for (i in 0..8) check_availability(soundbuttons[i],sound_costs[i])
-        for (i in 0..7)
+        for (i in 0..6)
             if (check_availability(colorbuttons[i],color_costs[i]))
                 colorbuttons[i].visibility=View.VISIBLE
             else
@@ -112,8 +118,8 @@ open class MainActivity : AppCompatActivity() {
 //        vScore.text=clicks_amount.toString()
 
         soundbuttons = arrayOf(_1,_2,_3,_4,_5,_6,_7,_8,_9)
-        colorbuttons = arrayOf() //заполнить массив ид через запятую
-        for (togglebutton in arrayOf(soundbuttons,colorbuttons).flatten()) {
+        colorbuttons = arrayOf(orange, purple, green, red, blue, yellow, pink)
+        for (togglebutton in soundbuttons) {
             togglebutton.setOnCheckedChangeListener{ buttonView, isChecked ->
                 if (isChecked) {
                     if(check_cost(togglebutton)) {
@@ -121,6 +127,16 @@ open class MainActivity : AppCompatActivity() {
                     }
                 } else {
                     buttonView.setBackgroundColor(getColor(R.color.colorPrimary))
+                }
+            }
+        }
+        for (togglebutton in colorbuttons) {
+//            togglebutton.textOn=" "
+//            togglebutton.textOff=" "
+            togglebutton.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    if (!check_cost(togglebutton))
+                        buttonView.isChecked = false
                 }
             }
         }
