@@ -2,13 +2,13 @@
     <string name="app_name">Click`s</string>
     <string name="Storage">Storage</string>
     <string name="score">312</string>
-    <string name="bright">Bright</string>
-    <string name="sound">Sound</string>
+    <string name="bright">brightness</string>
+    <string name="sound">volume</string>
     <string name="upgrades">Upgrades</string>
     <string name="perclick">+1\n per click</string>
-    <string name="imcombo">Improve\n combo</string>
-    <string name="imcrit">Improve\n crit</string>
-    <string name="sounds">Sounds</string>
+    <string name="imcombo">improve\n combo</string>
+    <string name="imcrit">improve\n crit</string>
+    <string name="sounds">Sound</string>
     <string name="skin">Skin</string>
     <string name="connect">Connect</string>
 

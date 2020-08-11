@@ -18,7 +18,6 @@ class SecondActivity: Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.second_activity)
         val soundbuttons = arrayOf<ToggleButton>(_1,_2,_3,_4,_5,_6,_7,_8,_9)
-//        R - all resources
         for (togglebutton in soundbuttons) {
             togglebutton.setOnCheckedChangeListener{ buttonView, isChecked ->
                 if (isChecked) {
@@ -32,6 +31,4 @@ class SecondActivity: Activity() {
 
 
     }
-
-
 }

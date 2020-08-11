@@ -1,118 +1,162 @@
 package com.example.test
 
-import android.annotation.SuppressLint
-//import android.app.ProgressDialog
-import android.bluetooth.BluetoothAdapter
-//import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothSocket
-//import android.content.Context
-import android.content.Intent
-//import android.os.AsyncTask
-//import android.os.AsyncTask.execute
+
+
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-//import android.view.MenuItem
+import android.view.View
 import android.widget.SeekBar
-//import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
-//import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
-//import java.io.IOException
-import java.util.*
-//import java.security.AccessController.getContext as getContext
+import android.widget.ToggleButton
+import kotlinx.android.synthetic.main.second_activity.*
 
 
-//@Suppress("DEPRECATION")
+
 open class MainActivity : AppCompatActivity() {
-    private lateinit var vStorage: TextView
-    private lateinit var vConnect: TextView
+
+//    set cost values here
+    private val sound_costs = arrayOf<Int>(0,10,50,100,200,300,500,1000,5000)
+    private val color_costs = arrayOf<Int>(0,20,40,80,160,320,640,2048)
+    private val upgrade_perclick_cost = 100
+    private val upgrade_crit_cost = 10
+    private val upgrade_combo_cost = 50
+    private val upgrade_perclick_value = 1
+    private val upgrade_combo_value = 0
+    private val upgrade_crit_value = 0
+    private val start_perclick_value = 1
+    private val start_crit_value = 0
+    private val start_combo_value = 0
+
     private lateinit var vScore: TextView
     private lateinit var vBrightness: SeekBar
-    private lateinit var vSounds: SeekBar
+    private lateinit var vVolume: SeekBar
+    private lateinit var vUpgrade_perclick: ToggleButton
+    private lateinit var vUpgrade_crit: ToggleButton
+    private lateinit var vUpgrade_combo: ToggleButton
+    private lateinit var soundbuttons: Array<ToggleButton>
+    private lateinit var colorbuttons: Array<ToggleButton>
 
-//    protected var progress: ProgressDialog? = null
-    protected var myBluetooth: BluetoothAdapter? = null
-    private var address: String? = "98:D3:31:F4:23:2C"
-    private var isBtConnected = false
-    protected var btSocket: BluetoothSocket? = null
-    private var EXTRA_ADDRESS = "device_address"
+//    private var upgrade_doubleclick: Boolean = false
+//    private var upgrade_crit: Boolean = false
+//    private var upgrade_combo: Boolean = false
 
-    //SPP UUID. Look for it
-    val myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")!!
+    private var checked_sound: Int = 0
+    private var checked_color: Int = 0
+    private var clicks_amount: Int = 100
 
+//    set id linking here
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun check_cost(b:ToggleButton):Boolean
+    {
+        var cost=0
+        when (b)
+        {
+            _1 -> cost=sound_costs[0]
+            _2 -> cost=sound_costs[1]
+            _3 -> cost=sound_costs[2]
+            _4 -> cost=sound_costs[3]
+            _5 -> cost=sound_costs[4]
+            _6 -> cost=sound_costs[5]
+            _7 -> cost=sound_costs[6]
+            _8 -> cost=sound_costs[7]
+            _9 -> cost=sound_costs[8]
+            //сюда добавить 8 строк, n=0..7: id -> cost=color_costs[n]
+            else -> return false
+        }
+        return check_availability(b,cost)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun check_availability(b:ToggleButton, cost:Int):Boolean
+    {
+        if(clicks_amount>=cost)
+        {
+            b.setTextColor(getColor(R.color.colorFont))
+            return true
+        }
+        else
+        {
+            b.setTextColor(getColor(R.color.colorClose))
+            return false
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun score_count()
+    {
+        vScore.text=clicks_amount.toString()
+        for (i in 0..8) check_availability(soundbuttons[i],sound_costs[i])
+        for (i in 0..7)
+            if (check_availability(colorbuttons[i],color_costs[i]))
+                colorbuttons[i].visibility=View.VISIBLE
+            else
+                colorbuttons[i].visibility=View.GONE
+        check_availability(vUpgrade_combo,upgrade_combo_cost)
+        check_availability(vUpgrade_crit,upgrade_crit_cost)
+        check_availability(vUpgrade_perclick,upgrade_perclick_cost)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        val newint = intent
-        address = newint.getStringExtra(EXTRA_ADDRESS)
-
-        vStorage = storage
-        vConnect = connect
+        setContentView(R.layout.second_activity)
         vScore = score
         vBrightness = seekBar_brightness
-        vSounds = seekBar_sound
+        vVolume = seekBar_sound
+        vUpgrade_combo = combo
+        vUpgrade_crit = crit
+        vUpgrade_perclick = perclick
+//        vScore.text=clicks_amount.toString()
 
-//        ConnectBT().execute()
-
-        vStorage.setOnClickListener {
-            val i = Intent(this, SecondActivity::class.java)
-            startActivityForResult(i, 0)
+        soundbuttons = arrayOf(_1,_2,_3,_4,_5,_6,_7,_8,_9)
+        colorbuttons = arrayOf() //заполнить массив ид через запятую
+        for (togglebutton in arrayOf(soundbuttons,colorbuttons).flatten()) {
+            togglebutton.setOnCheckedChangeListener{ buttonView, isChecked ->
+                if (isChecked) {
+                    if(check_cost(togglebutton)) {
+                        buttonView.setBackgroundColor(getColor(R.color.colorClose))
+                    }
+                } else {
+                    buttonView.setBackgroundColor(getColor(R.color.colorPrimary))
+                }
+            }
         }
-//        vConnect.setOnClickListener {
-//            val i = Intent(this, DeviceList::class.java)
-//            startActivityForResult(i, 0)
-//        }
 
-//        vSounds.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-//            override fun onProgressChanged(
-//                seekBar: SeekBar,
-//                progress: Int,
-//                fromUser: Boolean
-//            ) {
-//                if (fromUser) {
-////                    lumn.setText(progress.toString())
-//                    try {
-//                        btSocket!!.outputStream.write(progress.toString().toByteArray())
-//                    } catch (e: IOException) {
-//                    }
-//                }
-//            }
-//
-//            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-//            override fun onStopTrackingTouch(seekBar: SeekBar) {}
-//        })
-
-//        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)){
-//            Toast.makeText(this, "Bluetooth not support", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-//        if (myBluetoothAdapter == null) {
-//            Toast.makeText(this, "Bluetooth is not supported on this hardware platform", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//        val stInfo = bluetoothAdapter!!.name + " " + bluetoothAdapter!!.address
-//        textInfo.setText(String.format("Это устройство: %s", stInfo))
-    }
-
-    private fun Disconnect() {
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    override fun onStart() {
-        super.onStart()
-//        if (!myBluetoothAdapter!!.isEnabled) {
-//            val enableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-//            startActivityForResult(enableIntent, REQUEST_ENABLE_BT)
-//        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return true
+        vUpgrade_perclick.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                if(clicks_amount>=upgrade_perclick_cost) {
+                    buttonView.setBackgroundColor(getColor(R.color.colorClose))
+                    clicks_amount -= upgrade_perclick_cost
+                    score_count()
+                }
+            }
+        }
+        vUpgrade_combo.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                if(clicks_amount>=upgrade_combo_cost) {
+                    buttonView.setBackgroundColor(getColor(R.color.colorClose))
+                    clicks_amount -= upgrade_combo_cost
+                    score_count()
+                }
+            }
+        }
+        vUpgrade_crit.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                if(clicks_amount>=upgrade_crit_cost) {
+                    buttonView.setBackgroundColor(getColor(R.color.colorClose))
+                    clicks_amount -= upgrade_crit_cost
+                    score_count()
+                }
+            }
+        }
+        vScore.setOnClickListener {
+            clicks_amount+=1
+//            vScore.text=clicks_amount.toString()
+            score_count()
+        }
+        score_count()
     }
 }
