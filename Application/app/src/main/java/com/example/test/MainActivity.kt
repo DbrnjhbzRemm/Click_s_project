@@ -17,11 +17,11 @@ import kotlinx.android.synthetic.main.second_activity.*
 open class MainActivity : AppCompatActivity() {
 
 //    set cost values here
-    private val sound_costs = arrayOf<Int>(0,10,50,100,200,300,500,1000,5000)
-    private val color_costs = arrayOf<Int>(0,20,40,80,160,400,1200)
-    private val upgrade_perclick_cost = 100
-    private val upgrade_crit_cost = 10
-    private val upgrade_combo_cost = 50
+    private val sound_costs = arrayOf<Int>(0,200,200,200,200,200,200,200,200)
+    private val color_costs = arrayOf<Int>(0,150,150,150,150,150,150,150)
+    private val upgrade_perclick_cost = 200
+    private val upgrade_crit_cost = 400
+    private val upgrade_combo_cost = 350
     private val upgrade_perclick_value = 1
     private val upgrade_combo_value = 0
     private val upgrade_crit_value = 0
@@ -44,7 +44,7 @@ open class MainActivity : AppCompatActivity() {
 
     private var checked_sound: Int = 0
     private var checked_color: Int = 0
-    private var clicks_amount: Int = 0
+    private var clicks_amount: Int = 140
 
 //    set id linking here
     @RequiresApi(Build.VERSION_CODES.M)
@@ -62,29 +62,35 @@ open class MainActivity : AppCompatActivity() {
             _7 -> cost=sound_costs[6]
             _8 -> cost=sound_costs[7]
             _9 -> cost=sound_costs[8]
-            orange -> cost=color_costs[0]
-            purple -> cost=color_costs[1]
-            green -> cost=color_costs[2]
-            red -> cost=color_costs[3]
-            blue -> cost=color_costs[4]
-            yellow -> cost=color_costs[5]
-            pink -> cost=color_costs[6]
-            else -> return false
+            white -> cost=color_costs[0]
+            orange -> cost=color_costs[1]
+            purple -> cost=color_costs[2]
+            green -> cost=color_costs[3]
+            red -> cost=color_costs[4]
+            blue -> cost=color_costs[5]
+            yellow -> cost=color_costs[6]
+            pink -> cost=color_costs[7]
+            else -> cost=0
         }
-        return check_availability(b,cost)
+//        if(cost>0)
+            return check_availability(b,cost, false)
+//        else
+//            return true
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun check_availability(b:ToggleButton, cost:Int):Boolean
+    private fun check_availability(b:ToggleButton, cost:Int, setcol:Boolean=true):Boolean
     {
         if(clicks_amount>=cost)
         {
-            b.setTextColor(getColor(R.color.colorFont))
+            if (setcol)
+                b.setTextColor(getColor(R.color.colorFont))
             return true
         }
         else
         {
-            b.setTextColor(getColor(R.color.colorClose))
+            if (setcol)
+                b.setTextColor(getColor(R.color.colorClose))
             return false
         }
     }
@@ -94,8 +100,8 @@ open class MainActivity : AppCompatActivity() {
     {
         vScore.text=clicks_amount.toString()
         for (i in 0..8) check_availability(soundbuttons[i],sound_costs[i])
-        for (i in 0..6)
-            if (check_availability(colorbuttons[i],color_costs[i]))
+        for (i in 0..7)
+            if (check_availability(colorbuttons[i],color_costs[i],false))
                 colorbuttons[i].visibility=View.VISIBLE
             else
                 colorbuttons[i].visibility=View.GONE
@@ -118,7 +124,7 @@ open class MainActivity : AppCompatActivity() {
 //        vScore.text=clicks_amount.toString()
 
         soundbuttons = arrayOf(_1,_2,_3,_4,_5,_6,_7,_8,_9)
-        colorbuttons = arrayOf(orange, purple, green, red, blue, yellow, pink)
+        colorbuttons = arrayOf(white,orange, purple, green, red, blue, yellow, pink)
         for (togglebutton in soundbuttons) {
             togglebutton.setOnCheckedChangeListener{ buttonView, isChecked ->
                 if (isChecked) {
