@@ -22,7 +22,7 @@
     <string name="_8">8</string>
     <string name="_9">9</string>
     <string name="space"> </string>
-    <string name="o">o</string>
+    <string name="o">●</string>
 
     <string name="scanning">scanning for devices...</string>
     <string name="select_device">select a device to connect</string>

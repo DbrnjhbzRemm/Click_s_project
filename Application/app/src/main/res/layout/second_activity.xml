@@ -92,7 +92,7 @@
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:background="@color/colorPrimary"
-        android:textColor="@color/colorFont"
+        android:textColor="@color/colorClose"
         android:textOff="@string/_2"
         android:textOn="@string/_2"
         android:textSize="20sp"
@@ -106,7 +106,7 @@
         android:id="@+id/_1"
         android:layout_width="43dp"
         android:layout_height="43dp"
-        android:background="@color/colorClose"
+        android:background="@color/colorPrimary"
         android:textColor="@color/colorFont"
         android:textOff="@string/_1"
         android:textOn="@string/_1"
@@ -298,6 +298,7 @@
         android:layout_width="30dp"
         android:layout_height="35dp"
         android:background="@color/colorRedButton"
+        android:textColor="@color/colorFont"
         android:textOff="@string/space"
         android:textOn="@string/o"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -312,11 +313,12 @@
         android:layout_width="30dp"
         android:layout_height="35dp"
         android:background="@color/colorOrangeButton"
+        android:textColor="@color/colorFont"
         android:textOff="@string/space"
         android:textOn="@string/o"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/purple"
-        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintHorizontal_bias="0.831"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/skin"
         app:layout_constraintVertical_bias="0.095" />
@@ -333,13 +335,14 @@
         app:layout_constraintHorizontal_bias="0.716"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/skin"
-        app:layout_constraintVertical_bias="0.086" />
+        app:layout_constraintVertical_bias="0.095" />
 
     <ToggleButton
         android:id="@+id/purple"
         android:layout_width="30dp"
         android:layout_height="35dp"
         android:background="@color/colorPurpleButton"
+        android:textColor="@color/colorFont"
         android:textOff="@string/space"
         android:textOn="@string/o"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -354,6 +357,7 @@
         android:layout_width="30dp"
         android:layout_height="35dp"
         android:background="@color/colorPinkButton"
+        android:textColor="@color/colorFont"
         android:textOff="@string/space"
         android:textOn="@string/o"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -368,6 +372,7 @@
         android:layout_width="30dp"
         android:layout_height="35dp"
         android:background="@color/colorYellowButton"
+        android:textColor="@color/colorPrimaryDark"
         android:textOff="@string/space"
         android:textOn="@string/o"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -382,6 +387,7 @@
         android:layout_width="30dp"
         android:layout_height="35dp"
         android:background="@color/colorGreenButton"
+        android:textColor="@color/colorFont"
         android:textOff="@string/space"
         android:textOn="@string/o"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -393,17 +399,18 @@
 
     <ToggleButton
         android:id="@+id/blue"
-        android:layout_width="27dp"
-        android:layout_height="33dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
         android:background="@color/colorBlueButton"
+        android:textColor="@color/colorFont"
         android:textOff="@string/space"
         android:textOn="@string/o"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintHorizontal_bias="0.136"
         app:layout_constraintStart_toEndOf="@+id/red"
         app:layout_constraintTop_toBottomOf="@+id/skin"
-        app:layout_constraintVertical_bias="0.094" />
+        app:layout_constraintVertical_bias="0.095" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -3,23 +3,28 @@
 #include <Bounce2.h>
 #include <iarduino_OLED_txt.h>
 
-#define brightness 1
+#define brightness 0
 #define bright_difference 0.2
+#define start_color_red 255
+#define start_color_green 255
+#define start_color_blue 255
+#define start_perclick 1
+#define start_track 1
+#define start_crit_sound 3
+#define start_combo_sound 6
+#define start_vol 0
+#define start_crit_chance 30
+#define start_crit_combo 100
+#define start_crit_multiplier 2
+#define start_combo_multiplier 2
+#define cursor_x 16
+#define cursor_y 4
+
+#define button_pin 2
 #define default_red_pin 9
 #define default_green_pin 10
 #define default_blue_pin 11
-#define cursor_x 16
-#define cursor_y 4
-#define start_perclick 1
-#define start_track 9
-#define start_vol 25
-#define start_crit_chance 30
-#define start_crit_combo 70
-#define start_crit_multiplier 2
-#define start_combo_multiplier 2
-#define start_crit_sound 3
-#define start_combo_sound 6
-#define button_pin 2
+
 #define comand_setperclick "spcl"
 #define comand_setscore "sset"
 #define comand_setvolume "svol"
@@ -183,9 +188,9 @@ void  setup()
 {
   bright = brightness;
   difBright = bright_difference;
-  red = 0;
-  green = 0;
-  blue = 255;
+  red = start_color_red;
+  green = start_color_green;
+  blue = start_color_blue;
   perclick = start_perclick;
   track = start_track;
   score = 0;

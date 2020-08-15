@@ -38,19 +38,20 @@ open class MainActivity : AppCompatActivity() {
     private lateinit var soundbuttons: Array<ToggleButton>
     private lateinit var colorbuttons: Array<ToggleButton>
 
-//    private var upgrade_doubleclick: Boolean = false
-//    private var upgrade_crit: Boolean = false
-//    private var upgrade_combo: Boolean = false
-
+    private var upgrade_doubleclick: Boolean = false
+    private var upgrade_crit: Boolean = false
+    private var upgrade_combo: Boolean = false
     private var checked_sound: Int = 0
     private var checked_color: Int = 0
-    private var clicks_amount: Int = 140
+    private var clicks_amount: Int = 148
+    private var colors_opened = arrayOf<Boolean>(false, false, false, false, false, false, false, false)
+    private var sounds_opened = arrayOf<Boolean>(false, false, false, false, false, false, false, false, false)
 
 //    set id linking here
     @RequiresApi(Build.VERSION_CODES.M)
     private fun check_cost(b:ToggleButton):Boolean
     {
-        var cost:Int
+        val cost:Int
         when (b)
         {
             _1 -> cost=sound_costs[0]
@@ -79,7 +80,7 @@ open class MainActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun check_availability(b:ToggleButton, cost:Int, setcol:Boolean=true):Boolean
+    private fun check_availability(b:ToggleButton, cost:Int, setcol:Boolean):Boolean
     {
         if(clicks_amount>=cost)
         {
@@ -99,15 +100,24 @@ open class MainActivity : AppCompatActivity() {
     private fun score_count()
     {
         vScore.text=clicks_amount.toString()
-        for (i in 0..8) check_availability(soundbuttons[i],sound_costs[i])
+        for (i in 0..8)
+            if (!sounds_opened[i] && check_availability(soundbuttons[i],sound_costs[i],false)) {
+                sounds_opened[i] = true
+                check_availability(soundbuttons[i],sound_costs[i],true)
+            }
+//            check_availability(soundbuttons[i],sound_costs[i],true)
         for (i in 0..7)
-            if (check_availability(colorbuttons[i],color_costs[i],false))
-                colorbuttons[i].visibility=View.VISIBLE
-            else
-                colorbuttons[i].visibility=View.GONE
-        check_availability(vUpgrade_combo,upgrade_combo_cost)
-        check_availability(vUpgrade_crit,upgrade_crit_cost)
-        check_availability(vUpgrade_perclick,upgrade_perclick_cost)
+            if (check_availability(colorbuttons[i],color_costs[i],false)) {
+                colorbuttons[i].visibility = View.VISIBLE
+                colors_opened[i] = true
+            }
+            else {
+                if (!colors_opened[i])
+                    colorbuttons[i].visibility = View.GONE
+            }
+        if(!upgrade_combo)  check_availability(vUpgrade_combo,upgrade_combo_cost,true)
+        if(!upgrade_crit)   check_availability(vUpgrade_crit,upgrade_crit_cost,true)
+        if(!upgrade_doubleclick)    check_availability(vUpgrade_perclick,upgrade_perclick_cost,true)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -127,21 +137,24 @@ open class MainActivity : AppCompatActivity() {
         colorbuttons = arrayOf(white,orange, purple, green, red, blue, yellow, pink)
         for (togglebutton in soundbuttons) {
             togglebutton.setOnCheckedChangeListener{ buttonView, isChecked ->
-                if (isChecked) {
-                    if(check_cost(togglebutton)) {
-                        buttonView.setBackgroundColor(getColor(R.color.colorClose))
+                if (isChecked && sounds_opened[1]) {// это страшный костыль, но дедлайн горит, прошу прощения перед читающим это кем бы он ни был
+                    soundbuttons.forEach {
+                        if (it != togglebutton) it.isChecked = false
                     }
+                    buttonView.setBackgroundColor(getColor(R.color.colorClose))
                 } else {
                     buttonView.setBackgroundColor(getColor(R.color.colorPrimary))
+//                    buttonView.isChecked=true
                 }
             }
         }
         for (togglebutton in colorbuttons) {
-//            togglebutton.textOn=" "
-//            togglebutton.textOff=" "
             togglebutton.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
-                    if (!check_cost(togglebutton))
+                    colorbuttons.forEach {
+                        if (it != togglebutton) it.isChecked = false
+                    }
+                    if (!check_cost(togglebutton) && !colors_opened[1]) //страшный костыль
                         buttonView.isChecked = false
                 }
             }
@@ -149,27 +162,30 @@ open class MainActivity : AppCompatActivity() {
 
         vUpgrade_perclick.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                if(clicks_amount>=upgrade_perclick_cost) {
+                if(clicks_amount>=upgrade_perclick_cost && !upgrade_doubleclick) {
                     buttonView.setBackgroundColor(getColor(R.color.colorClose))
                     clicks_amount -= upgrade_perclick_cost
+                    upgrade_doubleclick=true
                     score_count()
                 }
             }
         }
         vUpgrade_combo.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                if(clicks_amount>=upgrade_combo_cost) {
+                if(clicks_amount>=upgrade_combo_cost && !upgrade_combo) {
                     buttonView.setBackgroundColor(getColor(R.color.colorClose))
                     clicks_amount -= upgrade_combo_cost
+                    upgrade_combo=true
                     score_count()
                 }
             }
         }
         vUpgrade_crit.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                if(clicks_amount>=upgrade_crit_cost) {
+                if(clicks_amount>=upgrade_crit_cost && !upgrade_crit) {
                     buttonView.setBackgroundColor(getColor(R.color.colorClose))
                     clicks_amount -= upgrade_crit_cost
+                    upgrade_crit=true
                     score_count()
                 }
             }
@@ -179,6 +195,8 @@ open class MainActivity : AppCompatActivity() {
 //            vScore.text=clicks_amount.toString()
             score_count()
         }
+        soundbuttons[0].isChecked=true
+        colorbuttons[0].isChecked=true
         score_count()
     }
 }
