@@ -2,16 +2,22 @@ package com.example.test
 
 
 
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothSocket
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.CompoundButton
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.ToggleButton
 import kotlinx.android.synthetic.main.second_activity.*
-
+import java.io.InputStream
+import java.io.OutputStream
+import java.util.*
 
 
 open class MainActivity : AppCompatActivity() {
@@ -23,11 +29,11 @@ open class MainActivity : AppCompatActivity() {
     private val upgrade_crit_cost = 400
     private val upgrade_combo_cost = 350
     private val upgrade_perclick_value = 1
-    private val upgrade_combo_value = 0
-    private val upgrade_crit_value = 0
+    private val upgrade_combo_value = 3
+    private val upgrade_crit_chance = 40
     private val start_perclick_value = 1
-    private val start_crit_value = 0
-    private val start_combo_value = 0
+    private val start_crit_chance = 30
+    private val start_combo_value = 2
 
     private lateinit var vScore: TextView
     private lateinit var vBrightness: SeekBar
@@ -46,6 +52,8 @@ open class MainActivity : AppCompatActivity() {
     private var clicks_amount: Int = 148
     private var colors_opened = arrayOf<Boolean>(false, false, false, false, false, false, false, false)
     private var sounds_opened = arrayOf<Boolean>(false, false, false, false, false, false, false, false, false)
+    lateinit var OS:OutputStream
+    lateinit var IS:InputStream
 
 //    set id linking here
     @RequiresApi(Build.VERSION_CODES.M)
@@ -77,6 +85,24 @@ open class MainActivity : AppCompatActivity() {
             return check_availability(b,cost, false)
 //        else
 //            return true
+    }
+
+    private fun get_num_sound(b:CompoundButton):String{//полный пиздец
+        val num:String
+        when (b)
+        {
+            _1 -> num="1"
+            _2 -> num="2"
+            _3 -> num="3"
+            _4 -> num="4"
+            _5 -> num="5"
+            _6 -> num="6"
+            _7 -> num="7"
+            _8 -> num="8"
+            _9 -> num="9"
+            else -> num="0"
+        }
+        return num
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -120,6 +146,11 @@ open class MainActivity : AppCompatActivity() {
         if(!upgrade_doubleclick)    check_availability(vUpgrade_perclick,upgrade_perclick_cost,true)
     }
 
+    private fun btsend(comand:String)
+    {
+        OS.write(comand.toByteArray())
+    }
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,6 +164,9 @@ open class MainActivity : AppCompatActivity() {
         vUpgrade_perclick = perclick
 //        vScore.text=clicks_amount.toString()
 
+        val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+//        val UUID =
+
         soundbuttons = arrayOf(_1,_2,_3,_4,_5,_6,_7,_8,_9)
         colorbuttons = arrayOf(white,orange, purple, green, red, blue, yellow, pink)
         for (togglebutton in soundbuttons) {
@@ -142,6 +176,7 @@ open class MainActivity : AppCompatActivity() {
                         if (it != togglebutton) it.isChecked = false
                     }
                     buttonView.setBackgroundColor(getColor(R.color.colorClose))
+                    btsend("strc "+get_num_sound(buttonView))
                 } else {
                     buttonView.setBackgroundColor(getColor(R.color.colorPrimary))
 //                    buttonView.isChecked=true
@@ -156,6 +191,7 @@ open class MainActivity : AppCompatActivity() {
                     }
                     if (!check_cost(togglebutton) && !colors_opened[1]) //страшный костыль
                         buttonView.isChecked = false
+
                 }
             }
         }
@@ -166,6 +202,7 @@ open class MainActivity : AppCompatActivity() {
                     buttonView.setBackgroundColor(getColor(R.color.colorClose))
                     clicks_amount -= upgrade_perclick_cost
                     upgrade_doubleclick=true
+                    btsend("spcl 2")
                     score_count()
                 }
             }
@@ -176,6 +213,7 @@ open class MainActivity : AppCompatActivity() {
                     buttonView.setBackgroundColor(getColor(R.color.colorClose))
                     clicks_amount -= upgrade_combo_cost
                     upgrade_combo=true
+                    btsend("comu 5")
                     score_count()
                 }
             }
@@ -186,6 +224,7 @@ open class MainActivity : AppCompatActivity() {
                     buttonView.setBackgroundColor(getColor(R.color.colorClose))
                     clicks_amount -= upgrade_crit_cost
                     upgrade_crit=true
+                    btsend("ccha 70")
                     score_count()
                 }
             }
@@ -195,8 +234,56 @@ open class MainActivity : AppCompatActivity() {
 //            vScore.text=clicks_amount.toString()
             score_count()
         }
+
+        seekBar_brightness.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                val sto:Float=100f
+                var a:Float=i/sto
+                btsend("sbrt $a")
+//                bright.text="sbrt $a"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+        })
+
+        seekBar_sound.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                var a:Int=i/3
+                btsend("sbrt $a")
+//                sound.text="sbrt $a"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+        })
+
+        val bt_mac:String = "98:D3:31:F6:23:69"
+//        bluetoothAdapter.bondedDevices()
+//        val bt_device: BluetoothDevice
+        val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
+        var k=0
+        pairedDevices?.forEach { device ->
+//            val deviceName = device.name
+            if(device.address==bt_mac) {
+                val bt_device: BluetoothDevice = device
+                val bt_socket: BluetoothSocket = bt_device.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"))
+                OS=bt_socket.outputStream
+                IS=bt_socket.inputStream
+            }
+        }
+
         soundbuttons[0].isChecked=true
         colorbuttons[0].isChecked=true
+
         score_count()
     }
 }
