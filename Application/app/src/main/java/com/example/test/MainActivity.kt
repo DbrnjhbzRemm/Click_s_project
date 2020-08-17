@@ -5,10 +5,12 @@ package com.example.test
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.SeekBar
@@ -20,8 +22,11 @@ import java.io.OutputStream
 import java.util.*
 
 
+
 open class MainActivity : AppCompatActivity() {
 
+    //val bt_mac:String = "98:D3:31:F6:23:69" //Miks bluetooth
+//    val bt_mac:String = "98:D3:31:20:47:FB" //our bluetooth
 //    set cost values here
     private val sound_costs = arrayOf<Int>(0,200,200,200,200,200,200,200,200)
     private val color_costs = arrayOf<Int>(0,150,150,150,150,150,150,150)
@@ -44,6 +49,7 @@ open class MainActivity : AppCompatActivity() {
     private lateinit var soundbuttons: Array<ToggleButton>
     private lateinit var colorbuttons: Array<ToggleButton>
 
+    //set start variables here
     private var upgrade_doubleclick: Boolean = false
     private var upgrade_crit: Boolean = false
     private var upgrade_combo: Boolean = false
@@ -56,7 +62,7 @@ open class MainActivity : AppCompatActivity() {
     lateinit var IS:InputStream
 
 //    set id linking here
-    @RequiresApi(Build.VERSION_CODES.M)
+    @RequiresApi(Build.VERSION_CODES.M) //gets cost of element and returns can you buy it or not
     private fun check_cost(b:ToggleButton):Boolean
     {
         val cost:Int
@@ -105,7 +111,7 @@ open class MainActivity : AppCompatActivity() {
         return num
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    @RequiresApi(Build.VERSION_CODES.M) //check if you can or can not buy smth, setcol=True sets text color available or not
     private fun check_availability(b:ToggleButton, cost:Int, setcol:Boolean):Boolean
     {
         if(clicks_amount>=cost)
@@ -122,7 +128,31 @@ open class MainActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    // parse three color ints from hex and send them to bt
+    fun btsend_color(buttonView: CompoundButton)
+    {
+        val col:Int
+        when(buttonView)
+        {
+            white -> col=R.color.colorFont
+            orange -> col=R.color.colorOrangeButton
+            purple -> col=R.color.colorPurpleButton
+            green -> col=R.color.colorGreenButton
+            red -> col=R.color.colorRedButton
+            blue -> col=R.color.colorBlueButton
+            yellow -> col=R.color.colorYellowButton
+            pink -> col=R.color.colorPinkButton
+            else -> col=0
+        }
+        val col_red=Color.red(col)
+        val col_blue=Color.blue(col)
+        val col_green=Color.green(col)
+        btsend("sred $col_red")
+        btsend("sblu $col_blue")
+        btsend("sgre $col_green")
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)//checks every component can you use it or not, reveals it
     private fun score_count()
     {
         vScore.text=clicks_amount.toString()
@@ -146,6 +176,7 @@ open class MainActivity : AppCompatActivity() {
         if(!upgrade_doubleclick)    check_availability(vUpgrade_perclick,upgrade_perclick_cost,true)
     }
 
+    //send string via bluetooth
     private fun btsend(comand:String)
     {
         OS.write(comand.toByteArray())
@@ -191,7 +222,7 @@ open class MainActivity : AppCompatActivity() {
                     }
                     if (!check_cost(togglebutton) && !colors_opened[1]) //страшный костыль
                         buttonView.isChecked = false
-
+                    btsend_color(buttonView)
                 }
             }
         }
@@ -266,20 +297,33 @@ open class MainActivity : AppCompatActivity() {
             }
         })
 
-        val bt_mac:String = "98:D3:31:F6:23:69"
+//        val device = bluetoothAdapter?.getRemoteDevice("98:D3:31:20:47:FB")
+
 //        bluetoothAdapter.bondedDevices()
 //        val bt_device: BluetoothDevice
+//        var k=0
         val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
-        var k=0
-        pairedDevices?.forEach { device ->
-//            val deviceName = device.name
-            if(device.address==bt_mac) {
-                val bt_device: BluetoothDevice = device
-                val bt_socket: BluetoothSocket = bt_device.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"))
-                OS=bt_socket.outputStream
-                IS=bt_socket.inputStream
+        Log.d("","start")
+        if (pairedDevices!=null&&pairedDevices.isNotEmpty())
+            pairedDevices.forEach { device ->
+//                soundbuttons[k].text=device.name
+//                if (device.address == bt_mac) {
+                if(device.name.equals("HC-06")){
+                    Log.d("","found")
+                    val bt_device: BluetoothDevice = device
+                    if(bt_device.createBond())
+                        Log.d("","device bonded")
+                    val bt_socket: BluetoothSocket =
+                        bt_device.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"))
+                    bt_socket.connect()
+                    if(bt_socket.isConnected)
+                        Log.d("","device connected")
+                    OS = bt_socket.outputStream
+                    IS = bt_socket.inputStream
+
+                }
+//                k+=1
             }
-        }
 
         soundbuttons[0].isChecked=true
         colorbuttons[0].isChecked=true
