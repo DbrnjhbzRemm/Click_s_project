@@ -134,47 +134,78 @@ void  raw_parser(String comand_str)
 //разделяет строку на массив символов с командой и числовое значение
 {
   int c = 0;
+  int x = 9;
+  int resultRed = 0;
+  int resultGreen = 0;
+  int resultBlue = 0;
   float resultInt = 0;
   float resultFloat = 0;
   char *var2;
 
   var2 = (char*)malloc(4 * sizeof(char));
 
-  while ((comand_str[c] != 32)||(comand_str[c] <= 48) && (comand_str[c] >= 57))
+  if ((comand_str[c] >= 48) && (comand_str[c] <= 57))
   {
-    var2[c] = comand_str[c];
-    c++;
+    while ((comand_str[c] >= 48) && (comand_str[c] <= 57) && x != 6)
+    {
+      resultRed = resultRed * 10 + comand_str[c] - 48;
+      c++;
+      x--;
+    }
+    while ((comand_str[c] >= 48) && (comand_str[c] <= 57) && x != 3)
+    {
+      resultGreen = resultGreen * 10 + comand_str[c] - 48;
+      c++;
+      x--;
+    }
+    while ((comand_str[c] >= 48) && (comand_str[c] <= 57) && x != 0)
+    {
+      resultBlue = resultBlue * 10 + comand_str[c] - 48;
+      c++;
+      x--;
+    }
+    red = resultRed;
+    green = resultGreen;
+    blue = resultBlue;
   }
-  c++;
-  while ((comand_str[c] >= 48) && (comand_str[c] <= 57))
+  else
   {
-    resultInt = resultInt * 10 + comand_str[c] - 48;
-    c++;
-  }
-  if (comand_str[c] == '.')
-  {
-    int i;
-    float a;
-
-    i = 0;
-    a = 1;
+    while ((comand_str[c] != 32)||(comand_str[c] <= 48) && (comand_str[c] >= 57))
+    {
+      var2[c] = comand_str[c];
+      c++;
+    }
     c++;
     while ((comand_str[c] >= 48) && (comand_str[c] <= 57))
     {
-      resultFloat = resultFloat * 10 + comand_str[c] - 48;
+      resultInt = resultInt * 10 + comand_str[c] - 48;
       c++;
-      i++;
     }
-    while (i)
+    if (comand_str[c] == '.')
     {
-      a = a / 10;
-      i--;
+      int i;
+      float a;
+  
+      i = 0;
+      a = 1;
+      c++;
+      while ((comand_str[c] >= 48) && (comand_str[c] <= 57))
+      {
+        resultFloat = resultFloat * 10 + comand_str[c] - 48;
+        c++;
+        i++;
+      }
+      while (i)
+      {
+        a = a / 10;
+        i--;
+      }
+      resultFloat = resultFloat * a;
     }
-    resultFloat = resultFloat * a;
+    resultInt = resultInt + resultFloat;
+    comand(var2, resultInt);
+    free(var2);
   }
-  resultInt = resultInt + resultFloat;
-  comand(var2, resultInt);
-  free(var2);
 }
 
 void setRGB(int r, int g, int b)
