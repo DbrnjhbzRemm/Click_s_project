@@ -29,6 +29,7 @@
 #define comand_setscore "sset"
 #define comand_setvolume "svol"
 #define comand_setclicktrack "strc"
+#define comand_setcolor "scol"
 #define comand_setredcolor "sred"
 #define comand_setgreencolor "sgrn"
 #define comand_setbluecolor "sblu"
@@ -144,8 +145,10 @@ void  raw_parser(String comand_str)
 
   var2 = (char*)malloc(4 * sizeof(char));
 
-  if ((comand_str[c] >= 48) && (comand_str[c] <= 57))
+  if ((comand_str[0] == comand_setcolor[0]) && (comand_str[1] == comand_setcolor[1]) && (comand_str[2] == comand_setcolor[2]) && (comand_str[3] == comand_setcolor[3]))
   {
+    c = c + 5;
+    //5 with spase, 4 without
     while ((comand_str[c] >= 48) && (comand_str[c] <= 57) && x != 6)
     {
       resultRed = resultRed * 10 + comand_str[c] - 48;
@@ -265,7 +268,7 @@ void  loop()
         myOLED.print(score);
         mp3_play(combo_sound);
         Serial.println(score);
-        setRGB(255-red, 255-green, 255-blue);
+        setRGB(250-red, 250-green, 250-blue);
         delay(150);
       }
       else if (random(1, 100) < critchance)
