@@ -261,82 +261,38 @@ void  setup()
 
 void  loop()
 {
-  // myOLED.setCursor(cursor_x, cursor_y);
-  // setRGB(red*difBright, green*difBright, blue*difBright);
-  // if (bouncer.update())
-  // {
-  //   if (bouncer.read() == 0)
-  //   {
-  //     if ((score%10 == 0) && (random(1, 100) < critcombo))
-  //     {
-  //       score += comboplier;
-  //       myOLED.print(score);
-  //       mp3_play(combo_sound);
-  //       Serial.println(score);
-  //       setRGB(250-red, 250-green, 250-blue);
-  //       delay(150);
-  //     }
-  //     else if (random(1, 100) < critchance)
-  //     {
-  //       score += critplier;
-  //       myOLED.print(score);
-  //       mp3_play(crit_sound);
-  //       Serial.println(score);
-  //       setRGB(red, green, blue);
-  //       delay(100);
-  //     }
-  //     else
-  //     {
-  //       score += perclick;
-  //       myOLED.print(score);
-  //       mp3_play(track);
-  //       Serial.println(score);
-  //       setRGB(red, green, blue);
-  //       delay(100);
-  //     }
-  //   }
-  // }
+  myOLED.setCursor(cursor_x, cursor_y);
+  setRGB(red*difBright, green*difBright, blue*difBright);
+  if (bouncer.update())
+  {
+    if (bouncer.read() == 0)
+    {
+      if ((score%10 == 0) && (random(1, 100) < critcombo))
+      {
+        score += comboplier;
+        mp3_play(combo_sound);
+        setRGB(250-red, 250-green, 250-blue);
+      }
+      else if (random(1, 100) < critchance)
+      {
+        score += critplier;
+        mp3_play(crit_sound);
+        setRGB(red, green, blue);
+      }
+      else
+      {
+        score += perclick;
+        mp3_play(track);
+        setRGB(red, green, blue);
+      }
+      myOLED.print(score);
+      // Serial.println(score);
+      delay(100);
+    }
+  }
   if (Serial.available())
   {
     var = Serial.readString();
     raw_parser(var);
-  }
-  else
-  {
-    myOLED.setCursor(cursor_x, cursor_y);
-    setRGB(red*difBright, green*difBright, blue*difBright);
-    if (bouncer.update())
-    {
-      if (bouncer.read() == 0)
-      {
-        if ((score%10 == 0) && (random(1, 100) < critcombo))
-        {
-          score += comboplier;
-          myOLED.print(score);
-          mp3_play(combo_sound);
-          Serial.println(score);
-          setRGB(250-red, 250-green, 250-blue);
-          delay(150);
-        }
-        else if (random(1, 100) < critchance)
-        {
-          score += critplier;
-          myOLED.print(score);
-          mp3_play(crit_sound);
-          Serial.println(score);
-          setRGB(red, green, blue);
-          delay(100);
-        }
-        else
-        {
-          score += perclick;
-          myOLED.print(score);
-          mp3_play(track);
-          Serial.println(score);
-          setRGB(red, green, blue);
-          delay(100);
-        }
-      }
-    }
   }
 }
