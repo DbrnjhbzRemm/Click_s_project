@@ -80,7 +80,7 @@ void  comand(char *comand_str, float value)
   }
   if ((comand_str[0] == comand_setperclick[0]) && (comand_str[1] == comand_setperclick[1]) && (comand_str[2] == comand_setperclick[2]) && (comand_str[3] == comand_setperclick[3]))
   {
-    perclick = value;
+    perclick = value; // добавить myOLED.clrScr()
   }
   if ((comand_str[0] == comand_setclicktrack[0]) && (comand_str[1] == comand_setclicktrack[1]) && (comand_str[2] == comand_setclicktrack[2]) && (comand_str[3] == comand_setclicktrack[3]))
   {
@@ -92,11 +92,11 @@ void  comand(char *comand_str, float value)
   }
   if ((comand_str[0] == comand_setcritmultiplier[0]) && (comand_str[1] == comand_setcritmultiplier[1]) && (comand_str[2] == comand_setcritmultiplier[2]) && (comand_str[3] == comand_setcritmultiplier[3]))
   {
-    critplier = value;
+    critplier = value;   // добавить myOLED.clrScr()
   }
   if ((comand_str[0] == comand_setcritchance[0]) && (comand_str[1] == comand_setcritchance[1]) && (comand_str[2] == comand_setcritchance[2]) && (comand_str[3] == comand_setcritchance[3]))
   {
-    critchance = value;
+    critchance = value;  // добавить myOLED.clrScr()
   }
   if ((comand_str[0] == comand_setcombotrack[0]) && (comand_str[1] == comand_setcombotrack[1]) && (comand_str[2] == comand_setcombotrack[2]) && (comand_str[3] == comand_setcombotrack[3]))
   {
@@ -104,11 +104,11 @@ void  comand(char *comand_str, float value)
   }
   if ((comand_str[0] == comand_setcombomultiplier[0]) && (comand_str[1] == comand_setcombomultiplier[1]) && (comand_str[2] == comand_setcombomultiplier[2]) && (comand_str[3] == comand_setcombomultiplier[3]))
   {
-    comboplier = value;
+    comboplier = value;  // добавить myOLED.clrScr()
   }
   if ((comand_str[0] == comand_setcombochance[0]) && (comand_str[1] == comand_setcombochance[1]) && (comand_str[2] == comand_setcombochance[2]) && (comand_str[3] == comand_setcombochance[3]))
   {
-    critcombo = value;
+    critcombo = value;  // добавить myOLED.clrScr()
   }
   if ((comand_str[0] == comand_setredcolor[0]) && (comand_str[1] == comand_setredcolor[1]) && (comand_str[2] == comand_setredcolor[2]) && (comand_str[3] == comand_setredcolor[3]))
   {
@@ -267,15 +267,15 @@ void  loop()
   {
     if (bouncer.read() == 0)
     {
-      if ((score%10 == 0) && (random(1, 100) < critcombo))
+      if ((score%10 == 0) && (random(1, 100) < critcombo))  // 10 сделать переменной. score/2%var(бывш 10)
       {
-        score += comboplier;
+        score += comboplier;      // нужно исправить на score += multiplior*perclick
         mp3_play(combo_sound);
         setRGB(250-red, 250-green, 250-blue);
       }
       else if (random(1, 100) < critchance)
       {
-        score += critplier;
+        score += critplier;    // нужно исправить на score += multiplior*perclick
         mp3_play(crit_sound);
         setRGB(red, green, blue);
       }
