@@ -30,10 +30,10 @@ open class MainActivity : AppCompatActivity() {
 //    private val TAG = "MyApp"
 
     private val sound_costs = arrayOf<Int>(0,200,200,200,200,200,200,200,200)
-    private val color_costs = arrayOf<Int>(0,150,150,150,150,150,150,150)
-    private val upgrade_perclick_cost = 200
-    private val upgrade_crit_cost = 400
-    private val upgrade_combo_cost = 350
+    private val color_costs = arrayOf<Int>(0,50,50,50,50,50,50,50)
+    private val upgrade_perclick_cost = 400
+    private val upgrade_crit_cost = 100
+    private val upgrade_combo_cost = 300
 //    private val upgrade_perclick_value = 1
 //    private val upgrade_combo_value = 3
 //    private val upgrade_crit_chance = 40
@@ -41,7 +41,10 @@ open class MainActivity : AppCompatActivity() {
 //    private val start_crit_chance = 30
 //    private val start_combo_value = 2
 
-    private val send_init_score:Boolean = false
+    //debug
+    private val send_init_score:Boolean = true
+    private val pizdec:Boolean = false
+    private val upgrade_price_payment:Boolean = false
 
     private lateinit var vScore: TextView
     private lateinit var vBrightness: SeekBar
@@ -63,6 +66,7 @@ open class MainActivity : AppCompatActivity() {
     private var sounds_opened = arrayOf<Boolean>(false, false, false, false, false, false, false, false, false)
     lateinit var OS:OutputStream
     lateinit var IS:InputStream
+//    lateinit var bt_socket:BluetoothSocket
     val MY_UUID = UUID.fromString("00000000-0000-1000-8000-00805F9B34FB")
     private lateinit var bluetoothAdapter: BluetoothAdapter
 
@@ -270,7 +274,11 @@ open class MainActivity : AppCompatActivity() {
     //send string via bluetooth
     private fun btsend(command:String)
     {
+//        bt_socket.connect()
+//        OS = bt_socket.outputStream
         OS.write(command.toByteArray())
+//        OS.flush()
+//        OS.close()
     }
 
     @ExperimentalStdlibApi
@@ -323,16 +331,28 @@ open class MainActivity : AppCompatActivity() {
             if (isChecked) {
                 if(clicks_amount>=upgrade_perclick_cost && !upgrade_doubleclick) {
                     bt_get_score()
-                    clicks_amount -= upgrade_perclick_cost
-                    if(clicks_amount%2==1)
-                        clicks_amount+=1 //при нечётном числе навсегда перестаёт работать комбо
-                    btsend("sset $clicks_amount")
+                    if(upgrade_price_payment) {
+                        clicks_amount -= upgrade_perclick_cost
+                        if(clicks_amount%2==1)
+                            clicks_amount+=1 //при нечётном числе навсегда перестаёт работать комбо
+                        btsend("sset $clicks_amount")
+                    }
                     buttonView.setBackgroundColor(getColor(R.color.colorClose))
 
                     upgrade_doubleclick=true
+
+                    if (pizdec) {
+                        btsend("\n")
+                        for (i in 1..1000000)
+                            vScore.text = (i * i).toString()
+                    }
+//                    Thread({
+//                        Thread.sleep(10000)
+//                        btsend("scpl 2")
+//                    }).start()
                     score_count()
                     btsend("spcl 2") //временное исправление бага, при котором при апгрейде perclick
-                    btsend("cmul 4") //крит и комбо дают столько же, сколько обычный клик
+                    //btsend("cmul 4") //крит и комбо дают столько же, сколько обычный клик
 //                    btsend("")
                 }
             }
@@ -341,8 +361,10 @@ open class MainActivity : AppCompatActivity() {
             if (isChecked) {
                 if(clicks_amount>=upgrade_combo_cost && !upgrade_combo) {
                     bt_get_score()
-                    clicks_amount -= upgrade_combo_cost
-                    btsend("sset $clicks_amount")
+                    if(upgrade_price_payment) {
+                        clicks_amount -= upgrade_combo_cost
+                        btsend("sset $clicks_amount")
+                    }
                     buttonView.setBackgroundColor(getColor(R.color.colorClose))
                     upgrade_combo=true
                     score_count()
@@ -354,12 +376,14 @@ open class MainActivity : AppCompatActivity() {
             if (isChecked) {
                 if(clicks_amount>=upgrade_crit_cost && !upgrade_crit) {
                     bt_get_score()
-                    clicks_amount -= upgrade_crit_cost
-                    btsend("sset $clicks_amount")
+                    if(upgrade_price_payment) {
+                        clicks_amount -= upgrade_crit_cost
+                        btsend("sset $clicks_amount")
+                    }
                     buttonView.setBackgroundColor(getColor(R.color.colorClose))
                     upgrade_crit=true
                     score_count()
-                    btsend("ccha 70")
+                    btsend("cmul 3")
                 }
             }
         }
@@ -415,7 +439,7 @@ open class MainActivity : AppCompatActivity() {
                 if(device.name.equals("HC-06")){
 //                    bt_device_connect_thread = ConnectThread(device)
 
-                    val bt_socket: BluetoothSocket =
+                    val bt_socket:BluetoothSocket =
                         device.createInsecureRfcommSocketToServiceRecord(UUID.fromString(
                             "00001101-0000-1000-8000-00805F9B34FB"))
 
